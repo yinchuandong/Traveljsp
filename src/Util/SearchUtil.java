@@ -70,14 +70,12 @@ public class SearchUtil {
 	 * @return
 	 */
 	public String retrieve(String word){
-		HashMap<String, String> resultMap = new HashMap<String, String>();
-		JSONObject resultJson = null;
+		JSONObject resultJson = JSONObject.fromObject("{}");
 		if (word == null || word.equals("")) {
-			resultMap.put("data", "[]");
-			resultMap.put("info", "关键词不能为空");
-			resultMap.put("status", "0");
-			resultJson = JSONObject.fromObject(resultMap);
-			return resultJson.toString();
+			resultJson.put("data", JSONArray.fromObject("[]"));
+			resultJson.put("info", AppUtil.toUnicode("关键词不能为空"));
+			resultJson.put("status", "0");
+			return resultJson.toString().replaceAll("\\\\u", "\\u");
 		}
 		
 		//-------打开索引--------
@@ -95,11 +93,10 @@ public class SearchUtil {
 					e1.printStackTrace();
 				}
 			}
-			resultMap.put("data", "[]");
-			resultMap.put("info", "索引打开失败");
-			resultMap.put("status", "0");
-			resultJson = JSONObject.fromObject(resultMap);
-			return resultJson.toString();
+			resultJson.put("data", JSONArray.fromObject("[]"));
+			resultJson.put("info", AppUtil.toUnicode("索引打开失败"));
+			resultJson.put("status", "0");
+			return resultJson.toString().replaceAll("\\\\u", "\\u");
 		}
 		
 		BooleanQuery booleanQuery = new BooleanQuery();
@@ -115,17 +112,16 @@ public class SearchUtil {
 			for (ScoreDoc scoreDoc : scoreDocs) {
 				Document targetDoc = searcher.doc(scoreDoc.doc);
 				String sid = targetDoc.get("sid");
-				String ambiguitySname = targetDoc.get("ambiguity_sname");
+				String ambiguitySname = AppUtil.toUnicode(targetDoc.get("ambiguity_sname"));
 				String surl = targetDoc.get("surl");
 				dataList.add(new Scenery(sid, ambiguitySname, surl));
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
-			resultMap.put("data", "[]");
-			resultMap.put("info", "搜索失败");
-			resultMap.put("status", "0");
-			resultJson = JSONObject.fromObject(resultMap);
-			return resultJson.toString();
+			resultJson.put("data", JSONArray.fromObject("[]"));
+			resultJson.put("info", AppUtil.toUnicode("搜索失败"));
+			resultJson.put("status", "0");
+			return resultJson.toString().replaceAll("\\\\u", "\\u");
 		} finally{
 			try {
 				reader.close();
@@ -135,11 +131,10 @@ public class SearchUtil {
 			}
 		}
 		
-		resultMap.put("data", JSONArray.fromObject(dataList).toString());
-		resultMap.put("info", "返回成功");
-		resultMap.put("status", "1");
-		resultJson = JSONObject.fromObject(resultMap);
-		return resultJson.toString();
+		resultJson.put("data", JSONArray.fromObject(dataList));
+		resultJson.put("info", AppUtil.toUnicode("返回成功"));
+		resultJson.put("status", "1");
+		return resultJson.toString().replaceAll("\\\\u", "\\u");
 	}
 	
 	/**
@@ -192,10 +187,11 @@ public class SearchUtil {
 	}
 	
 	
+	
 	public static void main(String[] args){
 		System.out.println("====================");
 		SearchUtil searchUtil = new SearchUtil();
-		String result = searchUtil.retrieve("长隆欢乐世界");
+		String result = searchUtil.retrieve("广");
 		System.out.println(result);
 	}
 	

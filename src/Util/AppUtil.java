@@ -4,12 +4,13 @@ import java.io.BufferedReader;
 import java.io.File;
 import java.io.FileReader;
 import java.io.IOException;
+import java.io.UnsupportedEncodingException;
 import java.util.ArrayList;
 
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 
-public class FileUtil {
+public class AppUtil {
 
 	
 	/**
@@ -40,12 +41,35 @@ public class FileUtil {
 		return result;
 	}
 	
+	/**
+	 * 将中文转为unicode，防止传输乱码
+	 * @param strText
+	 * @return
+	 */
+	public static String toUnicode(String strText) { 
+		char c; 
+		String strRet = ""; 
+		int intAsc; 
+		String strHex; 
+		for (int i = 0; i < strText.length(); i++) { 
+			c = strText.charAt(i); 
+			intAsc = (int) c; 
+			if (intAsc > 128) { 
+				strHex = Integer.toHexString(intAsc); 
+				strRet += "\\u" + strHex; 
+			} else { 
+				strRet = strRet + c; 
+			} 
+		} 
+		return strRet; 
+	}
+	
 	public static void main(String[] args){
 		File dir = new File("E:\\web");
 		File[] files = dir.listFiles();
 		for (int i = 0; i < 1; i++) {
 			File file = files[i];
-			String content = FileUtil.readFile(file);
+			String content = AppUtil.readFile(file);
 			System.out.println(content);
 		}
 		

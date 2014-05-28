@@ -23,9 +23,8 @@ import org.apache.commons.lang.WordUtils;
 import org.apache.lucene.document.Document;
 import org.apache.lucene.document.Field;
 
-import com.sun.accessibility.internal.resources.accessibility;
 
-import Util.FileUtil;
+import Util.AppUtil;
 
 /**
  * 测试trie树，用于搜索的提示模块
@@ -75,7 +74,6 @@ public class TrieTree {
 	 * @return
 	 */
 	public ArrayList<Sentence> find(String word){
-		System.out.println("-------------");
 		ArrayList<Sentence> result = new ArrayList<Sentence>();
 		 
 		TrieNode node = root;
@@ -87,7 +85,7 @@ public class TrieTree {
 				node = node.getChildren().get(key);
 				prefix += node.getWord();
 			}else{
-				return null;
+				return result;
 			}
 		}
 		
@@ -135,14 +133,12 @@ public class TrieTree {
 	 * @return
 	 */
 	public static String doSearch(String keyWord, String dirpath){
-		HashMap<String, String> resultMap = new HashMap<String, String>();
-		JSONObject resultObj = null;
+		JSONObject resultObj = JSONObject.fromObject("{}");;
 		if (keyWord == null || keyWord.length() <1) {
-			resultMap.put("info", "关键字不合法");
-			resultMap.put("status", "0");
-			resultMap.put("data", "[]");
-			resultObj = JSONObject.fromObject(resultMap);
-			return resultObj.toString();
+			resultObj.put("info", AppUtil.toUnicode("关键字不合法"));
+			resultObj.put("status", "0");
+			resultObj.put("data", JSONArray.fromObject("[]"));
+			return resultObj.toString().replaceAll("\\\\u", "\\u");
 		}
 		
 		keyWord = keyWord.trim();
@@ -170,41 +166,39 @@ public class TrieTree {
 			}catch (Exception ex){
 				ex.printStackTrace();
 			}
-			resultMap.put("info", "服务器错误");
-			resultMap.put("status", "0");
-			resultMap.put("data", "[]");
-			resultObj = JSONObject.fromObject(resultMap);
-			return resultObj.toString();
+			resultObj.put("info", AppUtil.toUnicode("服务器错误"));
+			resultObj.put("status", "0");
+			resultObj.put("data", JSONArray.fromObject("[]"));
+			return resultObj.toString().replaceAll("\\\\u", "\\u");
 		}
 		
 		ArrayList<Sentence> list = tree.find(keyWord);
-		ArrayList<String> keyList = new ArrayList<String>();
+		ArrayList<Sentence> keyList = new ArrayList<Sentence>();
 		int len = (list.size() > 10) ? 10 : list.size();
-//		for (Sentence sentence : list) {
-//			System.out.println(sentence.getViewCount() + ":" + sentence.getWord());
-//		}
 		for (int i=0; i<len; i++){
-			keyList.add(list.get(i).word);
+			Sentence sentence = list.get(i);
+			sentence.setWord(AppUtil.toUnicode(sentence.getWord()));
+			keyList.add(sentence);
 		}
 		
 		JSONArray jsonData = JSONArray.fromObject(keyList);
-		resultMap.put("info", "返回成功");
-		resultMap.put("status", "1");
-		resultMap.put("data", jsonData.toString());
-		resultObj = JSONObject.fromObject(resultMap);
-		return resultObj.toString();
+		resultObj.put("info", AppUtil.toUnicode("返回成功"));
+		resultObj.put("status", "1");
+		resultObj.put("data", jsonData);
+		return resultObj.toString().replaceAll("\\\\u", "\\u");
 	}
 	
-//	public static void main(String[] args) throws IOException{
-//		System.out.println("-----------------");
-//		long begin = System.currentTimeMillis();
-//		
-//		String result = TrieTree.doSearch("白云山", "./keyword");
-//		System.out.println(result);
-//		
-//		long end = System.currentTimeMillis();
-//		System.out.println("耗时：" + (end - begin));
-//	}
+	public static void main(String[] args) throws IOException{
+		System.out.println("-----------------");
+		long begin = System.currentTimeMillis();
+		
+		String result = TrieTree.doSearch("广州科技", "E:\\traveldata\\keyword");
+		System.out.println(result);
+		
+		long end = System.currentTimeMillis();
+		System.out.println("耗时：" + (end - begin));
+	}
+	
 	
 	
 	/**
