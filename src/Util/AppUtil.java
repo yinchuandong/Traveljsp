@@ -14,7 +14,7 @@ public class AppUtil {
 
 	
 	/**
-	 * ¶ÁÈ¡ÎÄ¼ş
+	 * è¯»å–æ–‡ä»¶
 	 * @param file
 	 * @return
 	 */
@@ -42,7 +42,7 @@ public class AppUtil {
 	}
 	
 	/**
-	 * ½«ÖĞÎÄ×ªÎªunicode£¬·ÀÖ¹´«ÊäÂÒÂë
+	 * å°†ä¸­æ–‡è½¬ä¸ºunicodeï¼Œé˜²æ­¢ä¼ è¾“ä¹±ç 
 	 * @param strText
 	 * @return
 	 */

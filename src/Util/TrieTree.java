@@ -2,32 +2,23 @@ package Util;
 
 import java.io.BufferedReader;
 import java.io.File;
-import java.io.FileNotFoundException;
 import java.io.FileReader;
 import java.io.IOException;
-import java.io.PrintWriter;
 import java.util.ArrayList;
 import java.util.Collections;
 import java.util.HashMap;
 import java.util.Iterator;
-import java.util.LinkedList;
 import java.util.Stack;
 
-import javax.print.DocFlavor.STRING;
 
 import net.sf.json.JSONArray;
 import net.sf.json.JSONObject;
-
-import org.apache.commons.collections.bag.TreeBag;
-import org.apache.commons.lang.WordUtils;
-import org.apache.lucene.document.Document;
-import org.apache.lucene.document.Field;
 
 
 import Util.AppUtil;
 
 /**
- * ²âÊÔtrieÊ÷£¬ÓÃÓÚËÑË÷µÄÌáÊ¾Ä£¿é
+ * æµ‹è¯•trieæ ‘ï¼Œç”¨äºæœç´¢çš„æç¤ºæ¨¡å—
  * @author yinchuandong
  *
 					   _ooOoo_
@@ -49,7 +40,7 @@ import Util.AppUtil;
 	 ======`-.____`-.___\_____/___.-`____.-'======
 					    `=---='
 	 ^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^^
-				  ·ğ×æ±£ÓÓ       ÓÀÎŞBUG
+				  ä½›ç¥–ä¿ä½‘       æ°¸æ— BUG
 */
 public class TrieTree {
 
@@ -62,12 +53,12 @@ public class TrieTree {
 	}
 	
 	/**
-	 * ¼ÓÈëÒ»¸ö´Êµ½Ê÷ÖĞ
-	 * @param word Èç£º³¤Â¡»¶ÀÖÊÀ½ç
-	 * @param viewCount Èç£º36555
+	 * åŠ å…¥ä¸€ä¸ªè¯åˆ°æ ‘ä¸­
+	 * @param word å¦‚ï¼šé•¿éš†æ¬¢ä¹ä¸–ç•Œ
+	 * @param viewCount å¦‚ï¼š36555
 	 */
 	public void add(String word, int viewCount){
-		//¸ù½ÚµãÎª¿Õ
+		//æ ¹èŠ‚ç‚¹ä¸ºç©º
 		TrieNode node = root;
 		word = word.trim();
 		sentenceMap.put(word, viewCount);
@@ -89,7 +80,7 @@ public class TrieTree {
 	}
 	
 	/**
-	 * ²éÕÒÖ¸¶¨µÄÇ°×º
+	 * æŸ¥æ‰¾æŒ‡å®šçš„å‰ç¼€
 	 * @param word
 	 * @return
 	 */
@@ -109,12 +100,12 @@ public class TrieTree {
 			}
 		}
 		
-		//½ÚµãÕ»£¬ÓÃÀ´±£´æ·ÃÎÊ¹ıµÄ½Úµã
+		//èŠ‚ç‚¹æ ˆï¼Œç”¨æ¥ä¿å­˜è®¿é—®è¿‡çš„èŠ‚ç‚¹
 		Stack<TrieNode> nodeStack = new Stack<TrieNode>();
-		//×Ö·ûÕ»£¬ÓÃÀ´±£´æ·ÃÎÊ¹ıµÄÂ·¾¶µÄ×Ö·û
+		//å­—ç¬¦æ ˆï¼Œç”¨æ¥ä¿å­˜è®¿é—®è¿‡çš„è·¯å¾„çš„å­—ç¬¦
 		Stack<String> strStack = new Stack<String>();
 		
-		//³õÊ¼»¯¶ÑÕ»
+		//åˆå§‹åŒ–å †æ ˆ
 		Iterator<String> iterator = node.getChildren().keySet().iterator();
 		while (iterator.hasNext()) {
 			String key = iterator.next();
@@ -127,12 +118,12 @@ public class TrieTree {
 			TrieNode tmpNode = nodeStack.pop();
 			tmpStr = strStack.pop() + tmpNode.word;
 			
-			if (tmpNode.isTerminal()) {//Èç¹ûÊÇÖÕ¶Ë´Ê£¬Ôò¹¹³ÉÒ»¸ö¾ä×Ó£¬¼ÓÈëµ½½á¹ûÁĞ±íÖĞ
+			if (tmpNode.isTerminal()) {//å¦‚æœæ˜¯ç»ˆç«¯è¯ï¼Œåˆ™æ„æˆä¸€ä¸ªå¥å­ï¼ŒåŠ å…¥åˆ°ç»“æœåˆ—è¡¨ä¸­
 				Sentence sentence = new Sentence(tmpStr, tmpNode.getCount());
 				result.add(sentence);
 				tmpStr = "";
 			}else{
-				//Èç¹û²»ÊÇÖÕ¶Ë´Ê£¬Ôò½«¸Ã´ÊµÄchildrenÑ¹Õ»£¬µÈ´ı·ÃÎÊ
+				//å¦‚æœä¸æ˜¯ç»ˆç«¯è¯ï¼Œåˆ™å°†è¯¥è¯çš„childrenå‹æ ˆï¼Œç­‰å¾…è®¿é—®
 				Iterator<String> iterChild = tmpNode.getChildren().keySet().iterator();
 				while (iterChild.hasNext()) {
 					String key = iterChild.next();
@@ -148,14 +139,14 @@ public class TrieTree {
 	}
 	
 	/**
-	 * ËÑË÷ÎÄµµ
+	 * æœç´¢æ–‡æ¡£
 	 * @param keyWord
 	 * @return
 	 */
 	public static String doSearch(String keyWord, String dirpath){
 		JSONObject resultObj = JSONObject.fromObject("{}");
 		if (keyWord == null || keyWord.length() <1) {
-			resultObj.put("info", AppUtil.toUnicode("¹Ø¼ü×Ö²»ºÏ·¨"));
+			resultObj.put("info", AppUtil.toUnicode("å…³é”®å­—ä¸åˆæ³•"));
 			resultObj.put("status", "0");
 			resultObj.put("data", JSONArray.fromObject("[]"));
 			return resultObj.toString().replaceAll("\\\\u", "\\u");
@@ -181,7 +172,7 @@ public class TrieTree {
 			}
 		} catch (IOException e) {
 			e.printStackTrace();
-			resultObj.put("info", AppUtil.toUnicode("·şÎñÆ÷´íÎó"));
+			resultObj.put("info", AppUtil.toUnicode("æœåŠ¡å™¨é”™è¯¯"));
 			resultObj.put("status", "0");
 			resultObj.put("data", JSONArray.fromObject("[]"));
 			return resultObj.toString().replaceAll("\\\\u", "\\u");
@@ -205,7 +196,7 @@ public class TrieTree {
 		}
 		
 		JSONArray jsonData = JSONArray.fromObject(keyList);
-//		resultObj.put("info", AppUtil.toUnicode("·µ»Ø³É¹¦"));
+//		resultObj.put("info", AppUtil.toUnicode("è¿”å›æˆåŠŸ"));
 		resultObj.put("info", test);
 		resultObj.put("status", "1");
 		resultObj.put("data", jsonData);
@@ -216,27 +207,27 @@ public class TrieTree {
 		System.out.println("-----------------");
 		long begin = System.currentTimeMillis();
 		
-		String result = TrieTree.doSearch("¹ã", "traveldata/keyword");
+		String result = TrieTree.doSearch("å¹¿", "traveldata/keyword");
 		System.out.println(result);
 		
 		long end = System.currentTimeMillis();
-		System.out.println("ºÄÊ±£º" + (end - begin));
+		System.out.println("è€—æ—¶ï¼š" + (end - begin));
 	}
 	
 	
 	
 	/**
-	 * ËÑË÷µÄ½á¹û¶ÔÏó
+	 * æœç´¢çš„ç»“æœå¯¹è±¡
 	 * @author yinchuandong
 	 *
 	 */
 	public class Sentence implements Comparable<Sentence>{
 		/**
-		 * ¾ä×Ó£¬Èç:¹ãÖİ°×ÔÆÉ½
+		 * å¥å­ï¼Œå¦‚:å¹¿å·ç™½äº‘å±±
 		 */
 		private String word = null;
 		/**
-		 * ·ÃÎÊÁ¿£¬Èç£º36555
+		 * è®¿é—®é‡ï¼Œå¦‚ï¼š36555
 		 */
 		private int viewCount = 0;
 		
@@ -274,7 +265,7 @@ public class TrieTree {
 	}
 	
 	/**
-	 * ×ÖµäÊ÷¶ÔÏó
+	 * å­—å…¸æ ‘å¯¹è±¡
 	 * @author yinchuandong
 	 *
 	 */
