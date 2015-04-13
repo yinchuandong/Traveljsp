@@ -159,12 +159,10 @@ public class TrieTree {
 		TrieTree tree = new TrieTree();
 		
 		BufferedReader reader = null;
-		String test = "";
 		try {
 			reader = new BufferedReader(new FileReader(new File(filePath)));
 			String line = null;
 			while((line = reader.readLine()) != null){
-				test += line;
 				String[] arr = line.split(" ");
 				String word = arr[0];
 				int viewCount = Integer.parseInt(arr[1]);
@@ -196,8 +194,7 @@ public class TrieTree {
 		}
 		
 		JSONArray jsonData = JSONArray.fromObject(keyList);
-//		resultObj.put("info", AppUtil.toUnicode("返回成功"));
-		resultObj.put("info", test);
+		resultObj.put("info", AppUtil.toUnicode("返回成功"));
 		resultObj.put("status", "1");
 		resultObj.put("data", jsonData);
 		return resultObj.toString().replaceAll("\\\\u", "\\u");
