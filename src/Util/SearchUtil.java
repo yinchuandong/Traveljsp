@@ -81,7 +81,7 @@ public class SearchUtil {
 		//-------´ò¿ªË÷Òý--------
 		ArrayList<String> list = this.cut(word);
 		try {
-			directory = new SimpleFSDirectory(new File("E:\\traveldata\\index"));
+			directory = new SimpleFSDirectory(new File("./traveldata/index"));
 			reader = IndexReader.open(directory);
 			searcher = new IndexSearcher(reader);
 		} catch (IOException e) {

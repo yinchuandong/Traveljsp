@@ -5,8 +5,10 @@
 <% 
 	String keyWord = request.getParameter("key");
 	keyWord = (keyWord == null) ? "" : keyWord;
-	keyWord = new String(keyWord.getBytes("ISO-8859-1"), 0, keyWord.length(), "utf-8");
-	String result = TrieTree.doSearch(keyWord, "E:\\traveldata\\keyword");
-	
+ 	/* keyWord = new String(keyWord.getBytes("ISO-8859-1"), 0, keyWord.length(), "utf-8");*/
+ 	String result = TrieTree.doSearch(keyWord, "/Users/yinchuandong/androidapp/project/Traveljsp/traveldata/keyword");
+ 	File file = new File("/Users/yinchuandong/androidapp/project/Traveljsp/traveldata/keyword");
 %>
-<%= result%>
+<%= keyWord %>
+<%= result %>
+<%= file.getAbsolutePath() %>
