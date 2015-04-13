@@ -8,10 +8,12 @@
  	/* keyWord = new String(keyWord.getBytes("ISO-8859-1"), 0, keyWord.length(), "utf-8");*/
 /*  	String result = TrieTree.doSearch(keyWord, "/Users/yinchuandong/androidapp/workspace2/Traveljsp/traveldata/keyword");
  */ 	
-	String result = TrieTree.doSearch(keyWord, "/Users/yinchuandong/androidapp/workspace2/Traveljsp/traveldata/keyword");
+ 	String path = application.getRealPath("/traveldata/keyword");
+	String result = TrieTree.doSearch(keyWord, path);
 
-	File file = new File("./traveldata/keyword");
+ 	
+	File file = new File(application.getRealPath("/traveldata/keyword"));
 %>
-<%= keyWord %>
+<%= request.getPathInfo() %>
 <%= result %>
 <%= file.getAbsolutePath() %>

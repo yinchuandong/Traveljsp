@@ -204,7 +204,7 @@ public class TrieTree {
 		System.out.println("-----------------");
 		long begin = System.currentTimeMillis();
 		
-		String result = TrieTree.doSearch("广", "traveldata/keyword");
+		String result = TrieTree.doSearch("广", "WebContent/traveldata/keyword");
 		System.out.println(result);
 		
 		long end = System.currentTimeMillis();
