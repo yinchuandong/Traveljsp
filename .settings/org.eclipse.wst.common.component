@@ -29,6 +29,9 @@
         <dependent-module archiveName="commons-httpclient-3.0.1.jar" deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/Traveljsp/libs/json2.4/commons-httpclient-3.0.1.jar">
             <dependency-type>uses</dependency-type>
         </dependent-module>
+        <dependent-module archiveName="pinyin4j-1.1.0.jar" deploy-path="/WEB-INF/lib" handle="module:/classpath/lib/Traveljsp/libs/pinyin4j-1.1.0.jar">
+            <dependency-type>uses</dependency-type>
+        </dependent-module>
         <property name="java-output-path" value="/Traveljsp/build/classes"/>
         <property name="context-root" value="Traveljsp"/>
     </wb-module>

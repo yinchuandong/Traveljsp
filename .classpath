@@ -22,5 +22,6 @@
 	<classpathentry exported="true" kind="lib" path="libs/json2.4/json-lib-2.4-jdk15.jar"/>
 	<classpathentry exported="true" kind="lib" path="libs/IKAnalyzer2012FF_u1.jar"/>
 	<classpathentry exported="true" kind="lib" path="libs/lucene-core-4.8.0.jar"/>
+	<classpathentry exported="true" kind="lib" path="libs/pinyin4j-1.1.0.jar"/>
 	<classpathentry kind="output" path="build/classes"/>
 </classpath>
