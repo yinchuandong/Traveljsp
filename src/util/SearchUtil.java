@@ -120,7 +120,7 @@ public class SearchUtil {
 		JSONObject resultObj = JSONObject.fromObject("{}");
 		try {
 			JSONArray dataArr = JSONArray.fromObject("[]");
-			TopDocs topDocs = iSeacher.search(booleanQuery, 30, sort);
+			TopDocs topDocs = iSeacher.search(booleanQuery, 10, sort);
 			ScoreDoc[] scoreDocs = topDocs.scoreDocs;
 			for (ScoreDoc scoreDoc : scoreDocs) {
 				Document doc = iSeacher.doc(scoreDoc.doc);
@@ -176,7 +176,7 @@ public class SearchUtil {
 //			e.printStackTrace();
 			resultObj.put("data", "[]");
 			resultObj.put("info", "服务器错误");
-			resultObj.put("status", 0);
+			resultObj.put("status", -1);
 		}
 //		System.out.println(resultObj.toString());
 		return AppUtil.toUnicode(resultObj.toString());
@@ -187,10 +187,11 @@ public class SearchUtil {
 	
 	
 	public static void main(String[] args){
-		SearchUtil util = SearchUtil.getInstance(new File("./index/"));
+		SearchUtil util = SearchUtil.getInstance(new File("WebContent/traveldata/index/"));
 //		util.search("白云山", 0.0, 2000.0, 3.0, "viewCount", false);
 		System.out.println("-------------");
-		util.search("长隆欢乐世界", 0.0, 1200.0, -1.0, "hotness", false);
+		String result = util.search("长隆欢乐世界", 0.0, 1200.0, -1.0, "hotness", false);
+		System.out.println(result);
 	}
 	
 	
